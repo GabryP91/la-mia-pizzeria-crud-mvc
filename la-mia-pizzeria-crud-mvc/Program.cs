@@ -1,3 +1,7 @@
+using la_mia_pizzeria_crud_mvc.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 namespace la_mia_pizzeria_crud_mvc
 {
     public class Program
@@ -8,6 +12,8 @@ namespace la_mia_pizzeria_crud_mvc
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<PizzaContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaDatabase")));
 
             var app = builder.Build();
 
@@ -32,5 +38,7 @@ namespace la_mia_pizzeria_crud_mvc
 
             app.Run();
         }
+
+   
     }
 }
