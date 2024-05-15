@@ -1,0 +1,69 @@
+﻿﻿@using Microsoft.AspNetCore.Components
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Mia pizzeria";
+    Layout = "_MioLayout";
+
+    Pizza prova = new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8);
+    Pizza prova1 = new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10);
+    Pizza prova2 = new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 7);
+    Pizza prova3 = new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 9);
+    Pizza prova4 = new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 10);
+    Pizza prova5 = new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 10);
+
+    string json = JsonConvert.SerializeObject(prova, Formatting.Indented);
+  
+    List<Pizza> pizze = new List<Pizza>();
+    pizze.Add(prova);
+    pizze.Add(prova1);
+    pizze.Add(prova2);
+    pizze.Add(prova3);
+    pizze.Add(prova4);
+    pizze.Add(prova5);
+
+}
+
+<div class="text-center">
+
+
+    <!--<audio controls loop autoplay id="audioPlayer" src="../audio/GigiDAgostino-GigisTime.mp3" type="audio/mpeg"></audio>
+    <script>
+        // Ottieni l'elemento audio
+        var audioPlayer = document.getElementById('audioPlayer');
+
+        // Imposta il volume al 50%
+        audioPlayer.volume = 0.1; // Imposta il volume a metà della sua capacità massima
+    </script>-->
+
+    <div>
+        
+        <h1 class="title">Ammazza che Pizza!!</h1>
+
+        <table class="table table-success">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Immagine</th>
+                    <th>Prezzo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pizza in pizze)
+                {
+                    <tr>
+                        <td><mark>@pizza.Nome</mark></td>
+                        <td>@pizza.Descrizione</td>
+                        <td><img src="@Url.Content(pizza.Foto)" alt="@pizza.Nome" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td><mark><b>@pizza.Prezzo €</b></mark></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        
+
+       
+    </div>
+
+</div>
