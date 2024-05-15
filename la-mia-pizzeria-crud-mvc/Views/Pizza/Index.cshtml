@@ -3,6 +3,29 @@
 
 @model IEnumerable<Pizza>
 
+@{
+    ViewData["Title"] = "Mia pizzeria";
+    Layout = "_MioLayout";
+
+    Pizza prova = new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8);
+    Pizza prova1 = new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10);
+    Pizza prova2 = new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 7);
+    Pizza prova3 = new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 9);
+    Pizza prova4 = new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 10);
+    Pizza prova5 = new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 10);
+
+    string json = JsonConvert.SerializeObject(prova, Formatting.Indented);
+  
+    List<Pizza> pizze = new List<Pizza>();
+    pizze.Add(prova);
+    pizze.Add(prova1);
+    pizze.Add(prova2);
+    pizze.Add(prova3);
+    pizze.Add(prova4);
+    pizze.Add(prova5);
+
+}
+
 <div class="text-center">
 
 

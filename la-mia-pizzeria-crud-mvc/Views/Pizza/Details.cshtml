@@ -1,7 +1,10 @@
-﻿﻿@using Microsoft.AspNetCore.Components
-@using Newtonsoft.Json
+﻿
+@model Pizza
 
-@model IEnumerable<Pizza>
+@{
+    ViewData["Title"] = "Dettagli pizza";
+    Layout = "_MioLayout";
+}
 
 <div class="text-center">
 
@@ -30,23 +33,18 @@
             </thead>
             <tbody>
 
-                @if (!Model.Any())
-                {
-                    <p>Non ci sono pizze disponibili.</p>
-                }
-                else
-                {
-                    foreach (var pizza in Model)
-                    {
+                @{
                         <tr>
-                            <td><mark>@pizza.Nome</mark></td>
-                            <td><img src="@Url.Content(pizza.Foto)" alt="@pizza.Nome" style="max-width: 100px; max-height: 100px;" /></td>
-                            <td><mark><b>@pizza.Prezzo €</b></mark></td>
-                            <!--Collegamento pagina details-->
-                            <td><mark><b><a href="@Url.Action("Details", "Pizza", new { id = pizza.id })">Dettagli</a></b></mark></td>
+                            <td><mark>@Model.Nome</mark></td>
+
+                            <td><img src="@Url.Content(Model.Foto)" alt="@Model.Nome" style="max-width: 150px; max-height: 150px;" /></td>
+
+                            <td><mark><b>@Model.Prezzo €</b></mark></td>
+                            
+                            <td><mark><b>@Model.Descrizione</b></mark></td>
                         </tr>
                     }
-                }
+                
                 
             </tbody>
         </table>

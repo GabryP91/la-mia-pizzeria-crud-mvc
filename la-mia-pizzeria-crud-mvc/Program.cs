@@ -13,8 +13,7 @@ namespace la_mia_pizzeria_crud_mvc
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<PizzaContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaDatabase")));
-
+   
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -34,7 +33,7 @@ namespace la_mia_pizzeria_crud_mvc
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Pizza}/{action=Index}/{id?}");
 
             app.Run();
         }

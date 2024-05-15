@@ -11,11 +11,11 @@ namespace la_mia_pizzeria_crud_mvc.Models
         public string Nome { get; set; }
         public string Descrizione { get; set; }
         public string Foto { get; set; }
-        public decimal Prezzo { get; set; }
+        public float Prezzo { get; set; }
 
         public Pizza() { }
 
-        public Pizza(string nome, string descrizione, string foto, decimal prezzo)
+        public Pizza(string nome, string descrizione, string foto, float prezzo)
         {
             this.Nome = nome;
 

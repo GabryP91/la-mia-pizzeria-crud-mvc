@@ -5,10 +5,14 @@ namespace la_mia_pizzeria_crud_mvc.Context
 {
     public class PizzaContext: DbContext
     {
-        public PizzaContext(DbContextOptions<PizzaContext> options) : base(options)
-        {
-        }
+      
+        public DbSet<Pizza> Pizza { get; set; }
 
-        public DbSet<Pizza> Pizze { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=db_mypizzeria;");
+        }
     }
+
+ 
 }
