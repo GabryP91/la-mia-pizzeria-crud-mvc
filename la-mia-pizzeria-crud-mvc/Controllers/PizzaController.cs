@@ -52,31 +52,38 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza pizza)
+        public async Task<IActionResult> Create(Pizza pizza, IFormFile foto)
         {
-            if (!ModelState.IsValid)
-            {
-                
-                // Ritorniamo "data" alla view così che la form abbia di nuovo i dati inseriti
-                // (anche se erronei)
-                return View("Create", pizza);
 
-            }
+          
+                string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+                string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
+                string imgPath = Path.Combine(imgFolderPath, imgFileName);
 
-            string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "img");
-            string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(pizza.Foto);
-            string imgPath = Path.Combine(imgFolderPath, imgFileName);
+                using (var stream = new FileStream(imgPath, FileMode.Create))
+                {
+                    await foto.CopyToAsync(stream);
+                }
 
-            using (var stream = new FileStream(imgPath, FileMode.Create))
-            {
-                await model.Foto.CopyToAsync(stream);
-            }
+                pizza.Foto = "~/img/" + imgFileName;
+
+                PizzaManager.InsertPizza(pizza);
+
+                if (!ModelState.IsValid)
+                {
+
+                    // Ritorniamo "data" alla view così che la form abbia di nuovo i dati inseriti
+                    // (anche se erronei)
+                    return View("Create", pizza);
+
+                }
+
+            
 
 
             PizzaManager.InsertPizza(pizza);
 
-              return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
          
