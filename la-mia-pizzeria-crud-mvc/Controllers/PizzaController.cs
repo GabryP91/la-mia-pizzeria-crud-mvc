@@ -10,28 +10,34 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
         public PizzaController()
         {
-            
+
             // Popolare il database con dati di esempio se non ci sono pizze
             if (_context.Pizza.Count() == 0)
             {
-                Pizza prova = new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8);
-                Pizza prova1 = new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f);
-                Pizza prova2 = new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f);
-                Pizza prova3 = new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11);
-                Pizza prova4 = new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f);
-                Pizza prova5 = new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6);
 
-                _context.Pizza.Add(prova);
-                _context.Pizza.Add(prova1);
-                _context.Pizza.Add(prova2);
-                _context.Pizza.Add(prova3);
-                _context.Pizza.Add(prova4);
-                _context.Pizza.Add(prova5);
+                List<Pizza> pizze = new List<Pizza>
+                {
+                    new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8),
+                    new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f),
+                    new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f),
+                    new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11),
+                    new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f),
+                    new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6)
+
+                };
+
+                foreach (var pizza in pizze)
+                {
+                    _context.Pizza.Add(pizza);
+                }
 
 
                 _context.SaveChanges();
+
             }
-        }
+        } 
+            
+        
         public IActionResult Index()
         {
             var pizze = _context.Pizza.ToList();
