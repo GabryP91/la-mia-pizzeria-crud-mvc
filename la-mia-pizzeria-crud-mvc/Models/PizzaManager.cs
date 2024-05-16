@@ -49,7 +49,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
             if (PizzaManager.CountAllPizzas() == 0)
             {
                 // Simula il caricamento di un'immagine
-                IFormFile fotoPizza1 = SimulaCaricamentoImmagine("margherita.jpg");
+                /*IFormFile fotoPizza1 = SimulaCaricamentoImmagine("margherita.jpg");
                 IFormFile fotoPizza2 = SimulaCaricamentoImmagine("Diavola.jpg");
                 IFormFile fotoPizza3 = SimulaCaricamentoImmagine("Ortolana.jpg");
                 IFormFile fotoPizza4 = SimulaCaricamentoImmagine("Crudaiola.jpg");
@@ -61,15 +61,15 @@ namespace la_mia_pizzeria_crud_mvc.Models
                 PizzaManager.InsertPizza(new Pizza("Ortolana", "ottima", fotoPizza3, 8.7f));
                 PizzaManager.InsertPizza(new Pizza("Crudaiola", "discreta", fotoPizza4, 11));
                 PizzaManager.InsertPizza(new Pizza("Sfiziosa", "buona", fotoPizza5, 9.4f));
-                PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", fotoPizza6, 6));
+                PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", fotoPizza6, 6));*/
 
 
-                /*PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona","~/img/margherita.jpg", 8));
+                PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona","~/img/margherita.jpg", 8));
                 PizzaManager.InsertPizza(new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f));
                 PizzaManager.InsertPizza(new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f));
                 PizzaManager.InsertPizza(new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11));
                 PizzaManager.InsertPizza(new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f));
-                PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6));*/
+                PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6));
 
                 db.SaveChanges();
 

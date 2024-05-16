@@ -55,8 +55,6 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Pizza pizza)
         {
-           // pizza.Foto = "";
-
             if (!ModelState.IsValid)
             {
                 
@@ -66,8 +64,17 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
             }
 
-      
-              PizzaManager.InsertPizza(pizza);
+            string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "img");
+            string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(pizza.Foto);
+            string imgPath = Path.Combine(imgFolderPath, imgFileName);
+
+            using (var stream = new FileStream(imgPath, FileMode.Create))
+            {
+                await model.Foto.CopyToAsync(stream);
+            }
+
+
+            PizzaManager.InsertPizza(pizza);
 
               return RedirectToAction("Index");
         }

@@ -31,7 +31,8 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
                     b.Property<string>("Descrizione")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Foto")
                         .IsRequired()
@@ -39,7 +40,8 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<float>("Prezzo")
                         .HasColumnType("real");

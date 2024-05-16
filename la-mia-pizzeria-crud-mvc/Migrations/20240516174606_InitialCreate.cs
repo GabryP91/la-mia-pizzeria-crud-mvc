@@ -14,8 +14,8 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Descrizione = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Descrizione = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Foto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Prezzo = table.Column<float>(type: "real", nullable: false)
                 },

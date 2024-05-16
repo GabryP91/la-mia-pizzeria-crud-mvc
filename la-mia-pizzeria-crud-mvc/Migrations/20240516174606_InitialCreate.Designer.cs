@@ -11,7 +11,7 @@ using la_mia_pizzeria_crud_mvc.Context;
 namespace la_mia_pizzeria_crud_mvc.Migrations
 {
     [DbContext(typeof(PizzaContext))]
-    [Migration("20240515145902_InitialCreate")]
+    [Migration("20240516174606_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,8 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
                     b.Property<string>("Descrizione")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Foto")
                         .IsRequired()
@@ -41,7 +42,8 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<float>("Prezzo")
                         .HasColumnType("real");

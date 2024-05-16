@@ -20,7 +20,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
         public string Descrizione { get; set; }
 
         [Required(ErrorMessage = "La foto è obbligatoria")]
-        public IFormFile Foto { get; set; }
+        public string Foto { get; set; }
 
         [Required(ErrorMessage = "Il prezzo è obbligatorio")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Il prezzo deve essere maggiore di zero")]
@@ -28,7 +28,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
 
         public Pizza() { }
 
-        public Pizza(string nome, string descrizione, IFormFile foto, float prezzo) : this()
+        public Pizza(string nome, string descrizione, string foto, float prezzo) : this()
         {
             this.Nome = nome;
 
