@@ -1,6 +1,10 @@
 ﻿using la_mia_pizzeria_crud_mvc.Context;
 using la_mia_pizzeria_crud_mvc.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+
+
+
 
 namespace la_mia_pizzeria_crud_mvc.Controllers
 {
@@ -8,11 +12,13 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
     {
         private readonly PizzaContext _context = new PizzaContext();
 
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public PizzaController()
         {
 
             // Popolare il database con dati di esempio se non ci sono pizze
-            if (_context.Pizza.Count() == 0)
+            if (PizzaManager.CountAllPizzas() == 0)
             {
 
                 List<Pizza> pizze = new List<Pizza>
@@ -40,16 +46,14 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         
         public IActionResult Index()
         {
-            var pizze = _context.Pizza.ToList();
-
-            return View(pizze);
+            return View(PizzaManager.GetAllPizza());
         }
 
         // Action per visualizzare i dettagli di una pizza
         public IActionResult Details(int id)
         {
             //restituiscimi la prima pizza con id uguale a quello passato
-            var pizza = _context.Pizza.FirstOrDefault(p => p.id == id);
+            var pizza = PizzaManager.GetPizza(id);
 
             if (pizza == null)
             {
@@ -57,6 +61,56 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             }
 
             return View(pizza);
+        }
+
+
+        // Action che fornisce la view con la form
+        // per creare un nuovo post del blog
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Pizza pizza, IFormFile Foto)
+        {
+           // pizza.Foto = "";
+
+            if (!ModelState.IsValid)
+            {
+                
+                // Ritorniamo "data" alla view così che la form abbia di nuovo i dati inseriti
+                // (anche se erronei)
+                return View("Create", pizza);
+
+            }
+
+            else
+            {
+                if (Foto != null)
+                {
+                    // Salva l'immagine nella cartella wwwroot/img
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Foto.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        Foto.CopyToAsync(fileStream);
+                    }
+
+                    pizza.Foto = uniqueFileName;
+                }
+
+                PizzaManager.InsertPizza(pizza);
+
+                return RedirectToAction("Index");
+            }
+
+         
+
         }
     }
 }
