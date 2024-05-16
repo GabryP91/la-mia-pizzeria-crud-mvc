@@ -75,7 +75,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza pizza, IFormFile Foto)
+        public IActionResult Create(Pizza pizza)
         {
            // pizza.Foto = "";
 
@@ -88,29 +88,14 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
             }
 
-            else
-            {
-                if (Foto != null)
-                {
-                    // Salva l'immagine nella cartella wwwroot/img
-                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img");
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Foto.FileName;
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        Foto.CopyToAsync(fileStream);
-                    }
+      
+              PizzaManager.InsertPizza(pizza);
 
-                    pizza.Foto = uniqueFileName;
-                }
-
-                PizzaManager.InsertPizza(pizza);
-
-                return RedirectToAction("Index");
+              return RedirectToAction("Index");
             }
 
          
 
         }
     }
-}
+
