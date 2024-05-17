@@ -2,6 +2,7 @@
 using la_mia_pizzeria_crud_mvc.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 
 
@@ -54,36 +55,42 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Pizza pizza, IFormFile foto)
         {
-
           
-                string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-                string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
-                string imgPath = Path.Combine(imgFolderPath, imgFileName);
+            if (pizza.Foto == null || pizza.Foto.Length == 0)
+            {
+                pizza.Foto = "~/img/";
+            }
 
-                using (var stream = new FileStream(imgPath, FileMode.Create))
+
+            if (!ModelState.IsValid)
+            {
+                // Logga gli errori
+                var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+           
+                // Verifica se uno degli errori riguarda il campo "foto"
+              
+                if (errorMessages.Count != 1 || foto == null || foto.Length == 0)
                 {
-                    await foto.CopyToAsync(stream);
-                }
-
-                pizza.Foto = "~/img/" + imgFileName;
-
-                PizzaManager.InsertPizza(pizza);
-
-                if (!ModelState.IsValid)
-                {
-
-                    // Ritorniamo "data" alla view così che la form abbia di nuovo i dati inseriti
-                    // (anche se erronei)
                     return View("Create", pizza);
-
                 }
 
-            
+            }
 
+
+            string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+            string imgFileName = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
+            string imgPath = Path.Combine(imgFolderPath, imgFileName);
+
+            using (var stream = new FileStream(imgPath, FileMode.Create))
+            {
+                await foto.CopyToAsync(stream);
+            }
+
+            pizza.Foto += imgFileName;
 
             PizzaManager.InsertPizza(pizza);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); 
         }
 
          
