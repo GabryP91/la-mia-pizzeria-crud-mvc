@@ -29,6 +29,7 @@
                     <th>Immagine</th>
                     <th>Prezzo</th>
                     <th>Descrizione</th>
+                    <th>Modifica</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,8 @@
                             <td><mark><b>@pizza.Prezzo €</b></mark></td>
                             <!--Collegamento pagina details-->
                             <td><mark><b><a href="@Url.Action("Details", "Pizza", new { id = pizza.id })">Dettagli</a></b></mark></td>
+                            <!--Collegamento pagina update-->
+                            <td><mark><b><a href="@Url.Action("Update", "Pizza", new { id = pizza.id })">Modifica</a></b></mark></td>
                         </tr>
                     }
                 }

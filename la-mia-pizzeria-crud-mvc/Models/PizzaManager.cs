@@ -76,5 +76,25 @@ namespace la_mia_pizzeria_crud_mvc.Models
             } 
         }
 
+        public static bool UpdatePizza(int id, Action<Pizza> edit)
+        {
+
+            using PizzaContext db = new PizzaContext();
+
+            //ricerca e restituisce la prima posizione con lo stesso id passato
+            var post = db.Pizza.FirstOrDefault(p => p.id == id);
+
+            if (post == null)
+                return false;
+
+            //restituisce il dato alla funzione lambda per farlo modificare
+            edit(post);
+
+            db.SaveChanges();
+
+            return true;
+        }
+
+
     }
 }
