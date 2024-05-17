@@ -30,6 +30,7 @@
                     <th>Prezzo</th>
                     <th>Descrizione</th>
                     <th>Modifica</th>
+                    <th>Elimina</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,6 +51,21 @@
                             <td><mark><b><a href="@Url.Action("Details", "Pizza", new { id = pizza.id })">Dettagli</a></b></mark></td>
                             <!--Collegamento pagina update-->
                             <td><mark><b><a href="@Url.Action("Update", "Pizza", new { id = pizza.id })">Modifica</a></b></mark></td>
+
+                            <!--Elimina dato-->
+                            <td>
+                                <mark>
+                                    <b>
+                                        <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.id" method="post" >
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                CANCELLA
+                                            </button>
+                                        </form>
+                                    </b>
+                                </mark>
+                             </td>
+
                         </tr>
                     }
                 }

@@ -14,7 +14,7 @@
             <h4>Pizza</h4>
             <hr />
 
-            <form asp-controller="Pizza" asp-action="Update" enctype="multipart/form-data" asp-route-id="@Model.id" method="post">
+            <form asp-controller="Pizza" asp-action="Update" enctype="multipart/form-data" asp-route-id="@Model.id" method="post" style="background-color:forestgreen">
 
                 @Html.AntiForgeryToken()
                 <div class="form-group">
@@ -41,7 +41,7 @@
 
 
 
-                <div class="form-group">
+                <div class="form-group" style="margin:10px 0px 0px 5px">
                     <input type="submit" value="Modifica" class="btn btn-primary" />
                 </div>
             </form>

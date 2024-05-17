@@ -95,6 +95,23 @@ namespace la_mia_pizzeria_crud_mvc.Models
             return true;
         }
 
+        public static bool DeletePost(int id)
+        {
+            using PizzaContext db = new PizzaContext();
+
+
+            var pizza = db.Pizza.FirstOrDefault(p => p.id == id);
+
+            if (pizza == null)
+                return false;
+
+            db.Pizza.Remove(pizza);
+
+            db.SaveChanges();
+
+            return true;
+        }
+
 
     }
 }
