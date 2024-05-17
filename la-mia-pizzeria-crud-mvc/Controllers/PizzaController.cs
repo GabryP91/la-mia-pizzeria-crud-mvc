@@ -56,15 +56,9 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         public async Task<IActionResult> Create(Pizza pizza, IFormFile foto)
         {
           
-            if (pizza.Foto == null || pizza.Foto.Length == 0)
-            {
-                pizza.Foto = "~/img/";
-            }
-
-
             if (!ModelState.IsValid)
             {
-                // Logga gli errori
+                // ottengo la lista degli errori
                 var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
            
                 // Verifica se uno degli errori riguarda il campo "foto"
@@ -86,7 +80,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
                 await foto.CopyToAsync(stream);
             }
 
-            pizza.Foto += imgFileName;
+            pizza.Foto = "~/img/" + imgFileName;
 
             PizzaManager.InsertPizza(pizza);
 
