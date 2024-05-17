@@ -1,5 +1,7 @@
 # la-mia-pizzeria-crud-mvc
 
+# PARTE1
+
 andiamo avanti con l’applicazione per gestire la nostra pizzeria.
 
 Lo scopo di oggi è quello di rendere dinamici i contenuti che abbiamo come html statico nella pagina con la lista delle pizze.
@@ -13,3 +15,10 @@ Dobbiamo quindi inviare l’id come parametro dell’URL, recuperarlo con la act
 La view a quel punto li mostrerà all’utente con la grafica che preferiamo.
 Ps. visto che abbiamo cambiato il controller sul quale lavoriamo, ricordiamoci di cambiare anche il “mapping di default” dei controller...altrimenti quale pagina viene caricata se richiamo l’url “/” della nostra webapp?
 Piccolo dettaglio…ricordatevi che i dati delle pizze devono essere in un database…quindi dobbiamo usare Entity Framework! 
+
+# PARTE2
+
+Abbiamo la pagina con la lista di tutte le pizze, quella con i dettagli della singola pizza, quella per crearla...cosa manca?
+Dobbiamo realizzare :
+- pagina di modifica di una pizza
+- cancellazione di una pizza cliccando un pulsante presente nella grafica di ogni singolo prodotto mostrato nella lista in homepage
