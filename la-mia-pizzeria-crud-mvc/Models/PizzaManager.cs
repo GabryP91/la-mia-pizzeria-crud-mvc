@@ -112,6 +112,20 @@ namespace la_mia_pizzeria_crud_mvc.Models
             return true;
         }
 
+        public static void DeleteAllPizza()
+        {
+            using PizzaContext db = new PizzaContext();
+
+            
+            foreach (Pizza pizza in db.Pizza.ToList())
+            {
+                db.Pizza.Remove(pizza);
+            }
+
+            db.SaveChanges();
+
+        }
+
 
     }
 }

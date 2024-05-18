@@ -19,8 +19,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         public PizzaController()
         {
 
-            // Popolare il database con dati di esempio se non ci sono pizze
-            PizzaManager.Seed();
+           
         } 
             
         
@@ -43,6 +42,25 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             return View(pizza);
         }
 
+        [HttpGet]
+        public IActionResult Popolate()
+        {
+            // Popolare il database con dati di esempio se non ci sono pizze
+            PizzaManager.Seed();
+
+            return RedirectToAction("Index");
+
+        }
+
+        [HttpGet]
+        public IActionResult Delete()
+        {
+            PizzaManager.DeleteAllPizza();
+
+            return RedirectToAction("Index");
+
+        }
+
 
         // Action che fornisce la view con la form
         // per creare un nuovo post del blog
@@ -51,6 +69,8 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         {
             return View();
         }
+
+       
 
 
         [HttpPost]
