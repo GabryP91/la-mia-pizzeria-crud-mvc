@@ -110,7 +110,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
             return true;
         }
 
-        public static bool DeletePost(int id)
+        public static bool DeletePizza(int id)
         {
             using PizzaContext db = new PizzaContext();
 

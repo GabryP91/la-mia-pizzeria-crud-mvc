@@ -129,17 +129,21 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             {
                 return NotFound();
             }
+           
             else
             {
-                return View(pizzaToEdit);
+                PizzaFormModel model = new PizzaFormModel(pizzaToEdit, PizzaManager.GetAllCategory());
+                //model.CreateTags();
+                return View(model);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Pizza data, IFormFile foto)
+        public IActionResult Update(int id, PizzaFormModel data, IFormFile foto)
         {
-           
+            data.Categories = PizzaManager.GetAllCategory();
+
             if (!ModelState.IsValid)
             {
                
@@ -160,17 +164,18 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
             string imgPath = Path.Combine(imgFolderPath, imgFileName);
 
-            data.Foto = "~/img/" + imgFileName;
+            data.Pizza.Foto = "~/img/" + imgFileName;
 
             // MODIFICA TRAMITE LAMBDA
             bool result = PizzaManager.UpdatePizza(id,
 
                 pizzaToEdit =>
                 {
-                    pizzaToEdit.Nome = data.Nome;
-                    pizzaToEdit.Descrizione = data.Descrizione;
-                    pizzaToEdit.Prezzo = data.Prezzo;
-                    pizzaToEdit.Foto = data.Foto;
+                    pizzaToEdit.Nome = data.Pizza.Nome;
+                    pizzaToEdit.Descrizione = data.Pizza.Descrizione;
+                    pizzaToEdit.Prezzo = data.Pizza.Prezzo;
+                    pizzaToEdit.Foto = data.Pizza.Foto;
+                    pizzaToEdit.Categoryid = data.Pizza.Categoryid;
 
                 });
 
@@ -186,7 +191,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         public IActionResult Delete(int id)
         {
            
-            if (PizzaManager.DeletePost(id))
+            if (PizzaManager.DeletePizza(id))
                 return RedirectToAction("Index");
             else
                 return NotFound();

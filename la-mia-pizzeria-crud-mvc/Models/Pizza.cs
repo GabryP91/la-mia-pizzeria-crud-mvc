@@ -26,7 +26,6 @@ namespace la_mia_pizzeria_crud_mvc.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "Il prezzo deve essere maggiore di zero")]
         public float Prezzo { get; set; }
         // Foreign key (relazione 1 a n)
-        [Required(ErrorMessage = "il tipo è obbligatorio")]
         public int Categoryid { get; set; }
 
         public Category? Category { get; set; }

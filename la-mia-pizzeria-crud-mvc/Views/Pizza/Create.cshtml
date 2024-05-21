@@ -40,7 +40,7 @@
                 <div class="mb-3">
                     <strong>Tipologia:</strong>
                     <select asp-for="Pizza.Categoryid" rows="10" class="d-block w-100">
-                        <option value=""></option>
+                        <option value="" disabled>Seleziona una categoria</option>
                         
                         @foreach (Category categoria in Model.Categories)
                         {
@@ -56,9 +56,9 @@
                             }
                             }
                     </select>
+                    <span asp-validation-for="Pizza.Categoryid" class="text-warning"></span>
 
-
-
+                </div>
                 <div class="form-group" style="margin:10px 0px 0px 5px">
                     <input type="submit" value="Crea" class="btn btn-primary" />
                 </div>
