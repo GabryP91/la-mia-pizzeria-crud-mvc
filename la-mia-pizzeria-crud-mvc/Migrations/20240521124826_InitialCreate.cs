@@ -22,6 +22,20 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ingrediente",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantita = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingrediente", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pizza",
                 columns: table => new
                 {
@@ -44,6 +58,35 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "IngredientPizza",
+                columns: table => new
+                {
+                    Ingredientsid = table.Column<int>(type: "int", nullable: false),
+                    Pizzasid = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IngredientPizza", x => new { x.Ingredientsid, x.Pizzasid });
+                    table.ForeignKey(
+                        name: "FK_IngredientPizza_Ingrediente_Ingredientsid",
+                        column: x => x.Ingredientsid,
+                        principalTable: "Ingrediente",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IngredientPizza_Pizza_Pizzasid",
+                        column: x => x.Pizzasid,
+                        principalTable: "Pizza",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IngredientPizza_Pizzasid",
+                table: "IngredientPizza",
+                column: "Pizzasid");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Pizza_Categoryid",
                 table: "Pizza",
@@ -58,6 +101,12 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "IngredientPizza");
+
+            migrationBuilder.DropTable(
+                name: "Ingrediente");
+
             migrationBuilder.DropTable(
                 name: "Pizza");
 

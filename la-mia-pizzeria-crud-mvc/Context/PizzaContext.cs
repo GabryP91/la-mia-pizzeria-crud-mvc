@@ -7,8 +7,8 @@ namespace la_mia_pizzeria_crud_mvc.Context
     {
         public DbSet<Category> Category { get; set; }
         public DbSet<Pizza> Pizza { get; set; }
+        public DbSet<Ingredient> Ingrediente { get; set; }
 
-        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

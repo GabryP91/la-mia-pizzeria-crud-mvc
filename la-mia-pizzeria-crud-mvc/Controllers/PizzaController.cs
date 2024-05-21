@@ -74,6 +74,8 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
             model.Categories = PizzaManager.GetAllCategory();
 
+            model.CreateIngredients();
+
             return View(model);
         }
 
@@ -83,18 +85,19 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PizzaFormModel data, IFormFile foto)
         {
-          
+            
             if (!ModelState.IsValid)
             {
 
-                data.Categories = PizzaManager.GetAllCategory();
-
                 // Ottenere la lista degli errori di validazione
                 var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-
                 // Verifica se ci sono errori o se la foto non è presente
                 if (errorMessages.Count > 1 || foto == null || foto.Length == 0)
                 {
+                    data.Categories = PizzaManager.GetAllCategory();
+
+                    data.CreateIngredients();
+
                     return View("Create", data);
                 }
 
@@ -113,7 +116,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
             data.Pizza.Foto = "~/img/" + imgFileName;
 
-            PizzaManager.InsertPizza(data.Pizza);
+            PizzaManager.InsertPizza(data.Pizza, data.SelectedIngredients);
 
             return RedirectToAction("Index"); 
         }
@@ -133,7 +136,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             else
             {
                 PizzaFormModel model = new PizzaFormModel(pizzaToEdit, PizzaManager.GetAllCategory());
-                //model.CreateTags();
+                model.CreateIngredients();
                 return View(model);
             }
         }
