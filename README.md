@@ -31,3 +31,11 @@ Tramite migration dobbiamo creare la tabella per le categorie. Popoliamola a man
 Aggiungiamo poi l’informazione della categoria nelle varie pagine :
 - nei dettagli di una singola pizza (nell’admin) mostrare la sua categoria
 - quando si crea/modifica una pizza si deve poter selezionare anche la sua categoria
+
+# PARTE4
+
+aggiungiamo gli ingredienti alle nostre pizze.
+Una pizza può avere più ingredienti, e un ingrediente può essere presente in più pizze.
+Creiamo quindi il Model necessario e la migration.
+Aggiungiamo poi il codice al controller (e alle view) per la gestione degli ingredienti quando creiamo, modifichiamo o visualizziamo una pizza.
+
