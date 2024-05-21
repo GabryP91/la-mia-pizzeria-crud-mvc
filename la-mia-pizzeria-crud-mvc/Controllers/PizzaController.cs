@@ -25,7 +25,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         
         public IActionResult Index()
         {
-            return View(PizzaManager.GetAllPizza());
+            return View(PizzaManager.GetAllPizza(true));
         }
 
         // Action per visualizzare i dettagli di una pizza
@@ -67,29 +67,38 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+
+            PizzaFormModel model = new PizzaFormModel();
+
+            model.Pizza = new Pizza();
+
+            model.Categories = PizzaManager.GetAllCategory();
+
+            return View(model);
         }
 
        
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(Pizza pizza, IFormFile foto)
+        public async Task<IActionResult> Create(PizzaFormModel data, IFormFile foto)
         {
           
             if (!ModelState.IsValid)
             {
-                // ottengo la lista degli errori
+
+                data.Categories = PizzaManager.GetAllCategory();
+
+                // Ottenere la lista degli errori di validazione
                 var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-           
-                // Verifica se uno degli errori riguarda il campo "foto"
-              
-                if (errorMessages.Count != 1 || foto == null || foto.Length == 0)
+
+                // Verifica se ci sono errori o se la foto non è presente
+                if (errorMessages.Count > 1 || foto == null || foto.Length == 0)
                 {
-                    return View("Create", pizza);
+                    return View("Create", data);
                 }
 
-            }
+            } 
 
 
             string imgFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
@@ -100,10 +109,11 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             {
                 await foto.CopyToAsync(stream);
             }
+            //pizza.Pizza.Foto;
 
-            pizza.Foto = "~/img/" + imgFileName;
+            data.Pizza.Foto = "~/img/" + imgFileName;
 
-            PizzaManager.InsertPizza(pizza);
+            PizzaManager.InsertPizza(data.Pizza);
 
             return RedirectToAction("Index"); 
         }

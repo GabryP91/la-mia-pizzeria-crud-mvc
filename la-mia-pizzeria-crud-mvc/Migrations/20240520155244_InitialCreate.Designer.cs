@@ -11,7 +11,7 @@ using la_mia_pizzeria_crud_mvc.Context;
 namespace la_mia_pizzeria_crud_mvc.Migrations
 {
     [DbContext(typeof(PizzaContext))]
-    [Migration("20240516174606_InitialCreate")]
+    [Migration("20240520155244_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,23 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("la_mia_pizzeria_crud_mvc.Models.Category", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("la_mia_pizzeria_crud_mvc.Models.Pizza", b =>
                 {
                     b.Property<int>("id")
@@ -30,6 +47,9 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<int>("Categoryid")
+                        .HasColumnType("int");
 
                     b.Property<string>("Descrizione")
                         .IsRequired()
@@ -50,10 +70,28 @@ namespace la_mia_pizzeria_crud_mvc.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("Categoryid");
+
                     b.HasIndex("Nome")
                         .IsUnique();
 
                     b.ToTable("Pizza");
+                });
+
+            modelBuilder.Entity("la_mia_pizzeria_crud_mvc.Models.Pizza", b =>
+                {
+                    b.HasOne("la_mia_pizzeria_crud_mvc.Models.Category", "Category")
+                        .WithMany("Pizzas")
+                        .HasForeignKey("Categoryid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("la_mia_pizzeria_crud_mvc.Models.Category", b =>
+                {
+                    b.Navigation("Pizzas");
                 });
 #pragma warning restore 612, 618
         }

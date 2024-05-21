@@ -30,6 +30,8 @@
                     <th>Prezzo</th>
                     <th>Descrizione</th>
                     <th>Modifica</th>
+                    
+                    <th>Categoria</th>
                     <th>Elimina</th>
                 </tr>
             </thead>
@@ -51,7 +53,7 @@
                             <td><mark><b><a href="@Url.Action("Details", "Pizza", new { id = pizza.id })">Dettagli</a></b></mark></td>
                             <!--Collegamento pagina update-->
                             <td><mark><b><a href="@Url.Action("Update", "Pizza", new { id = pizza.id })">Modifica</a></b></mark></td>
-
+                            <td><mark>@pizza.Category.Nome</mark></td>
                             <!--Elimina dato-->
                             <td>
                                 <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.id" method="post" >

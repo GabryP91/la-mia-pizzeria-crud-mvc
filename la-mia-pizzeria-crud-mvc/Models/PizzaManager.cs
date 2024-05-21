@@ -20,13 +20,25 @@ namespace la_mia_pizzeria_crud_mvc.Models
         }
 
         //funzione per ottenere tutti dati nella tabella pizza
-        public static List<Pizza> GetAllPizza()
+        public static List<Pizza> GetAllPizza(bool includeCategories = false)
         {
             using (PizzaContext db = new PizzaContext())
             {
-                return db.Pizza.ToList();
+                if (includeCategories) return db.Pizza.Include(c => c.Category).ToList();
+
+                else return db.Pizza.ToList();
             }
                 
+        }
+
+        //funzione per ottenere tutti dati nella tabella categoria
+        public static List<Category> GetAllCategory()
+        {
+            using (PizzaContext db = new PizzaContext())
+            {
+                return db.Category.ToList();
+            }
+
         }
 
 
@@ -35,8 +47,11 @@ namespace la_mia_pizzeria_crud_mvc.Models
         {
             using (PizzaContext db = new PizzaContext())
             {
-                //restituiscimi la prima pizza con id uguale a quello passato
-                Pizza pizza = db.Pizza.FirstOrDefault(p => p.id == id);
+                //restituiscimi la prima pizza con id uguale a quello passato con tutte la categoria
+                Pizza pizza = db.Pizza
+                    .Where(p => p.id == id)
+                    .Include(c => c.Category)
+                    .FirstOrDefault();
 
                 return pizza;
             }
@@ -62,12 +77,12 @@ namespace la_mia_pizzeria_crud_mvc.Models
                 if (PizzaManager.CountAllPizzas() == 0)
                 {
 
-                    PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8));
-                    PizzaManager.InsertPizza(new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f));
-                    PizzaManager.InsertPizza(new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f));
-                    PizzaManager.InsertPizza(new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11));
-                    PizzaManager.InsertPizza(new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f));
-                    PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6));
+                    PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8, 1));
+                    PizzaManager.InsertPizza(new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f, 1));
+                    PizzaManager.InsertPizza(new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f, 3));
+                    PizzaManager.InsertPizza(new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11, 1));
+                    PizzaManager.InsertPizza(new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f, 3));
+                    PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6, 2));
 
                     db.SaveChanges();
 
