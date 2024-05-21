@@ -23,7 +23,7 @@ Dobbiamo realizzare :
 - pagina di modifica di una pizza
 - cancellazione di una pizza cliccando un pulsante presente nella grafica di ogni singolo prodotto mostrato nella lista in homepage
 
-- # PARTE3
+# PARTE3
 
 aggiungiamo una categoria alle nostre pizze (”Pizze classiche”, “Pizze bianche”, “Pizze vegetariane”, “Pizze di mare”, ...).
 Dobbiamo quindi predisporre tutto il codice necessario per poter collegare una categoria a una pizza (in una relazione 1 a molti, cioè una pizza può avere una sola categoria, e una categoria può essere collegata a più pizze).
