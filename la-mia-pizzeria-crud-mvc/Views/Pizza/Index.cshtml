@@ -33,7 +33,11 @@
                     
                     <th>Categoria</th>
                     <th>Ingredienti</th>
-                    <th>Elimina</th>
+                    @if (User.IsInRole("ADMIN"))
+                    {
+                        <th>Elimina</th>
+                    }
+                    
                 </tr>
             </thead>
             <tbody>
@@ -76,16 +80,19 @@
                                 </mark>
                             </td>
 
+                            @if (User.IsInRole("ADMIN"))
+                            {
+                                <!--Elimina dato-->
+                                <td>
+                                    <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.id" method="post">
+                                        @Html.AntiForgeryToken()
 
-                            <!--Elimina dato-->
-                            <td>
-                                <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.id" method="post" >
-                                  @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger btn-sm"><b>CANCELLA</b></button>
 
-                                  <button type="submit" class="btn btn-danger btn-sm"><b>CANCELLA</b></button>
-
-                                </form>
-                             </td>
+                                    </form>
+                                </td>
+                            }
+                            
 
                         </tr>
                     }
@@ -94,10 +101,13 @@
             </tbody>
         </table>
 
-       
-        <button class="btn btn-warning"><b><a href="@Url.Action("Popolate", "Pizza")">Inserimento automatico pizze</a></b></button>
-        <button class="btn btn-success"><b><a href="@Url.Action("Create", "Pizza")">INSERISCI UNA NUOVA PIZZA</a></b></button>
-        <button class="btn btn-warning"><b><a href="@Url.Action("Delete", "Pizza")">ELIMINA LISTA PIZZE</a></b></button>
+       @if (User.IsInRole("ADMIN"))
+        {
+            <button class="btn btn-warning"><b><a href="@Url.Action("Popolate", "Pizza")">Inserimento automatico pizze</a></b></button>
+            <button class="btn btn-success"><b><a href="@Url.Action("Create", "Pizza")">INSERISCI UNA NUOVA PIZZA</a></b></button>
+            <button class="btn btn-warning"><b><a href="@Url.Action("Delete", "Pizza")">ELIMINA LISTA PIZZE</a></b></button>
+        }
+        
        
     </div>
 
