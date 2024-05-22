@@ -1,9 +1,11 @@
 ﻿using la_mia_pizzeria_crud_mvc.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace la_mia_pizzeria_crud_mvc.Context
 {
-    public class PizzaContext: DbContext
+    public class PizzaContext: IdentityDbContext<IdentityUser>
     {
         public DbSet<Category> Category { get; set; }
         public DbSet<Pizza> Pizza { get; set; }

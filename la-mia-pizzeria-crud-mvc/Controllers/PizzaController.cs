@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_crud_mvc.Context;
 using la_mia_pizzeria_crud_mvc.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -55,6 +56,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete()
         {
             PizzaManager.DeleteAllPizza();
@@ -67,6 +69,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         // Action che fornisce la view con la form
         // per creare un nuovo post del blog
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
 
@@ -124,6 +127,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int id)
         {
             // Prendo il post AGGIORNATO da database, non
@@ -187,6 +191,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
            
