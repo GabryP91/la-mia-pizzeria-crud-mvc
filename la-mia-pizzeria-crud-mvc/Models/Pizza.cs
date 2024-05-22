@@ -39,7 +39,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
         //METODI
         public Pizza() { }
 
-        public Pizza(string nome, string descrizione, string foto, float prezzo, int id, List<Ingredient> ingredients) : this()
+        public Pizza(string nome, string descrizione, string foto, float prezzo, int id) : this()
         {
             this.Nome = nome;
 
@@ -51,7 +51,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
 
             this.Categoryid = id;
 
-            this.Ingredients = ingredients;
+            
         }
 
         //override del metodo ToString

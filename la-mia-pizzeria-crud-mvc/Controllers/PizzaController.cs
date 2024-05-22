@@ -45,6 +45,8 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         [HttpGet]
         public IActionResult Popolate()
         {
+            // Popolare la tabella ingredienti
+            PizzaManager.SeedIng();
             // Popolare il database con dati di esempio se non ci sono pizze
             PizzaManager.Seed();
 

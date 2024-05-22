@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_crud_mvc.Context;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
@@ -19,15 +20,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
                
         }
 
-        //funzione per verificare che la tabella ingrediente sia popolata
-        public static int CountAllIngredients()
-        {
-            using (PizzaContext db = new PizzaContext())
-            {
-                return db.Ingrediente.Count();
-            }
 
-        }
 
         //funzione per ottenere tutti dati nella tabella pizza
         public static List<Pizza> GetAllPizza(bool includeCategories = false)
@@ -115,67 +108,117 @@ namespace la_mia_pizzeria_crud_mvc.Models
                 
         }
 
+        public static void SeedIng()
+        {
+            using (PizzaContext db = new PizzaContext())
+            { 
+            
+                var ingredienti = new List<Ingredient>
+                {
+                    new Ingredient {Nome = "Mozzarella", Quantita = 15 },
+                    new Ingredient {Nome = "Pomodoro", Quantita = 50 },
+                    new Ingredient {Nome = "Basilico", Quantita = 5 },
+                    new Ingredient {Nome = "SalamePiccante", Quantita = 15 },
+                    new Ingredient {Nome = "Rucola", Quantita = 25 },
+                    new Ingredient {Nome = "Parmigiano", Quantita = 15 },
+                    new Ingredient {Nome = "Zucchina", Quantita = 20 },
+                    new Ingredient {Nome = "Melanzana", Quantita = 1 },
+                    new Ingredient {Nome = "Bresaola", Quantita = 10 },
+                    new Ingredient {Nome = "FungoPorcino", Quantita = 20 }
+                };
+
+            // Verifica se l'ingrediente esiste già, altrimenti lo aggiunge
+            foreach (var ingrediente in ingredienti)
+            {
+                
+                    db.Ingrediente.Add(ingrediente);
+            }
+
+            db.SaveChanges();
+            }
+        }
+
+
         //funzione inserimetno singola pizza
         public static void Seed()
         {
             using (PizzaContext db = new PizzaContext())
             {
-                var ingredientsMargherita = new List<Ingredient>
+
+                // Recupera gli ingredienti necessari dal database
+                var mozzarella = db.Ingrediente.FirstOrDefault(i => i.Nome == "Mozzarella")?.id.ToString();
+                var pomodoro = db.Ingrediente.FirstOrDefault(i => i.Nome == "Pomodoro")?.id.ToString();
+                var basilico = db.Ingrediente.FirstOrDefault(i => i.Nome == "Basilico")?.id.ToString();
+                var salameP = db.Ingrediente.FirstOrDefault(i => i.Nome == "SalamePiccante")?.id.ToString();
+                var rucola = db.Ingrediente.FirstOrDefault(i => i.Nome == "Rucola")?.id.ToString();
+                var parmigiano = db.Ingrediente.FirstOrDefault(i => i.Nome == "Parmigiano")?.id.ToString();
+                var zucchina = db.Ingrediente.FirstOrDefault(i => i.Nome == "Zucchina")?.id.ToString();
+                var melanzana = db.Ingrediente.FirstOrDefault(i => i.Nome == "Melanzana")?.id.ToString();
+                var bresaola = db.Ingrediente.FirstOrDefault(i => i.Nome == "Bresaola")?.id.ToString();
+                var fungoP = db.Ingrediente.FirstOrDefault(i => i.Nome == "FungoPorcino")?.id.ToString();
+
+                // Crea una lista di stringhe con gli ID degli ingredienti per ogni pizza
+          
+                var ingredientsMargherita = new List<String>
+                 {
+                      mozzarella,
+                      pomodoro,
+                      basilico
+
+                 };
+
+                 var ingredientsDiavola = new List<String>
+                 {
+                     mozzarella,
+                     pomodoro,
+                     salameP
+                 };
+
+                 var ingredientsCrudaiola = new List<String>
+                 {  
+                     mozzarella,
+                     pomodoro,
+                     rucola,
+                     parmigiano
+                 };
+
+                 var ingredientsOrtolana = new List<String>
+                 {
+                     mozzarella,
+                     pomodoro,
+                     rucola,
+                     zucchina,
+                     melanzana
+                 };
+
+                 var ingredientsSfiziosa = new List<String>
+                 {
+                      mozzarella,
+                      pomodoro,
+                      rucola,
+                      bresaola
+                 };
+
+                 var ingredientsPorcina = new List<String>
+                 {
+                      mozzarella,
+                      pomodoro,
+                      basilico,
+                      fungoP
+                 };
+                 
+
+               
+
+                if ( PizzaManager.CountAllPizzas() == 0)
                 {
-                    new Ingredient {Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient {  Nome = "Pomodoro", Quantita = 50 },
-                    new Ingredient { Nome = "Basilico", Quantita = 5 }
-                };
 
-                var ingredientsDiavola = new List<Ingredient>
-                {
-                    new Ingredient {Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient { Nome = "Salame Piccante", Quantita = 15 },
-                    new Ingredient { Nome = "Pomodoro", Quantita = 50 }
-                };
-
-                var ingredientsCrudaiola = new List<Ingredient>
-                {
-                    new Ingredient { Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient { Nome = "Rucola",  Quantita = 25 },
-                    new Ingredient { Nome = "Pomodoro", Quantita = 50 },
-                    new Ingredient { Nome = "Parmigiano",  Quantita = 15 }
-                };
-
-                var ingredientsOrtolana = new List<Ingredient>
-                {
-                    new Ingredient { Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient { Nome = "Rucola",  Quantita = 25 },
-                    new Ingredient { Nome = "Zucchine", Quantita = 20 },
-                    new Ingredient { Nome = "Melanzana",  Quantita = 1}
-                };
-
-                var ingredientsSfiziosa = new List<Ingredient>
-                {
-                    new Ingredient { Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient { Nome = "Rucola",  Quantita = 25 },
-                    new Ingredient { Nome = "Pomodoro", Quantita = 50 },
-                    new Ingredient { Nome = "Bresaola",  Quantita = 10 }
-                };
-
-                var ingredientsPorcina = new List<Ingredient>
-                {
-                    new Ingredient { id = 1, Nome = "Mozzarella", Quantita = 15 },
-                    new Ingredient { id = 5, Nome = "Rucola",  Quantita = 25 },
-                    new Ingredient { id = 11, Nome = "Basilico", Quantita = 5 },
-                    new Ingredient { id = 10, Nome = "Funghi Porcini",  Quantita = 20 }
-                };
-
-
-                if (PizzaManager.CountAllIngredients() == 0 && PizzaManager.CountAllPizzas() == 0)
-                {
-
-                    PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8, 1, ingredientsMargherita));
-                    PizzaManager.InsertPizza(new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f, 1, ingredientsDiavola));
-                    PizzaManager.InsertPizza(new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f, 3, ingredientsOrtolana));
-                    PizzaManager.InsertPizza(new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11, 1, ingredientsCrudaiola));
-                    PizzaManager.InsertPizza(new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f, 3, ingredientsSfiziosa));
-                    PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6, 2, ingredientsPorcina));
+                    PizzaManager.InsertPizza(new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 8, 1), ingredientsMargherita);
+                    PizzaManager.InsertPizza(new Pizza("Diavola", "buona", "~/img/Diavola.jpg", 10.5f, 1), ingredientsDiavola);
+                    PizzaManager.InsertPizza(new Pizza("Ortolana", "ottima", "~/img/Ortolana.jpg", 8.7f, 3), ingredientsOrtolana);
+                    PizzaManager.InsertPizza(new Pizza("Crudaiola", "discreta", "~/img/Crudaiola.jpg", 11, 1), ingredientsCrudaiola);
+                    PizzaManager.InsertPizza(new Pizza("Sfiziosa", "buona", "~/img/Sfiziosa.jpg", 9.4f, 3), ingredientsSfiziosa);
+                    PizzaManager.InsertPizza(new Pizza("Porcina", "pessima", "~/img/Porcina.jpg", 6, 2), ingredientsPorcina);
 
 
                     db.SaveChanges();
@@ -185,6 +228,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
             } 
         }
 
+    
         public static bool UpdatePizza(int id, Action<Pizza> edit)
         {
 
