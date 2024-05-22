@@ -72,6 +72,7 @@ namespace la_mia_pizzeria_crud_mvc.Models
                
         }
 
+       
         //funzione inserimetno singolo ingrediente
         public static void InsertIngredient(Ingredient ingrediente)
         {
@@ -229,19 +230,37 @@ namespace la_mia_pizzeria_crud_mvc.Models
         }
 
     
-        public static bool UpdatePizza(int id, Action<Pizza> edit)
+        public static bool UpdatePizza(int id, Pizza pizza, List<string> selectedIngredients)
         {
 
             using PizzaContext db = new PizzaContext();
 
             //ricerca e restituisce la prima posizione con lo stesso id passato
-            var post = db.Pizza.FirstOrDefault(p => p.id == id);
+           
+            var pizzaDaModificare = db.Pizza.Where(p => p.id == id).Include(p => p.Ingredients).FirstOrDefault();
 
-            if (post == null)
+            if (pizzaDaModificare == null)
                 return false;
 
-            //restituisce il dato alla funzione lambda per farlo modificare
-            edit(post);
+            pizzaDaModificare.Nome = pizza.Nome;
+            pizzaDaModificare.Descrizione = pizza.Descrizione;
+            pizzaDaModificare.Prezzo = pizza.Prezzo;
+            pizzaDaModificare.Foto = pizza.Foto;
+            pizzaDaModificare.Categoryid = pizza.Categoryid;
+
+            // Prima svuoto così da salvare solo le informazioni che l'utente ha scelto, NON le aggiungiamo ai vecchi dati
+            pizzaDaModificare.Ingredients.Clear();
+
+            if (selectedIngredients != null)
+            {
+                foreach (var ingredient in selectedIngredients)
+                {
+                    int ingredientId = int.Parse(ingredient);
+                    var ingredientFromDb = db.Ingrediente.FirstOrDefault(x => x.id == ingredientId);
+                    if (ingredientFromDb != null)
+                        pizzaDaModificare.Ingredients.Add(ingredientFromDb);
+                }
+            }
 
             db.SaveChanges();
 

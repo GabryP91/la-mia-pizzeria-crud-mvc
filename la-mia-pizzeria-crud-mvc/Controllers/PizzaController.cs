@@ -138,7 +138,9 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             else
             {
                 PizzaFormModel model = new PizzaFormModel(pizzaToEdit, PizzaManager.GetAllCategory());
+
                 model.CreateIngredients();
+
                 return View(model);
             }
         }
@@ -147,8 +149,6 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, PizzaFormModel data, IFormFile foto)
         {
-            data.Categories = PizzaManager.GetAllCategory();
-
             if (!ModelState.IsValid)
             {
                
@@ -159,6 +159,10 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
                 if (errorMessages.Count != 1 || foto == null || foto.Length == 0)
                 {
+                    data.Categories = PizzaManager.GetAllCategory();
+
+                    data.CreateIngredients();
+
                     return View("Create", data);
                 }
             }
@@ -172,17 +176,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
             data.Pizza.Foto = "~/img/" + imgFileName;
 
             // MODIFICA TRAMITE LAMBDA
-            bool result = PizzaManager.UpdatePizza(id,
-
-                pizzaToEdit =>
-                {
-                    pizzaToEdit.Nome = data.Pizza.Nome;
-                    pizzaToEdit.Descrizione = data.Pizza.Descrizione;
-                    pizzaToEdit.Prezzo = data.Pizza.Prezzo;
-                    pizzaToEdit.Foto = data.Pizza.Foto;
-                    pizzaToEdit.Categoryid = data.Pizza.Categoryid;
-
-                });
+            bool result = PizzaManager.UpdatePizza(id, data.Pizza, data.SelectedIngredients);
 
             if (result == true)
                 return RedirectToAction("Index");

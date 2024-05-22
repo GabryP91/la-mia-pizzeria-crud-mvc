@@ -27,16 +27,14 @@ namespace la_mia_pizzeria_crud_mvc.Models
         {
             this.Ingredients = new List<SelectListItem>();
 
-            this.SelectedIngredients = new List<string>();
+            if (this.SelectedIngredients == null)
+                this.SelectedIngredients = new List<string>();
 
             var IngredientsFromDB = PizzaManager.GetAllIngredient();
 
             foreach (var Ingrediente in IngredientsFromDB) // es. ingrediente1, ingrediente2, ingrediente3... ingrediente10
             {
-                bool isSelected = this.Pizza.Ingredients?.Any(t => t.id == Ingrediente.id) == true; //se la tabella Pizza ha tra i suoi ingredienti almeno uno degli ingredienti
-                
-                if (isSelected)
-                    this.SelectedIngredients.Add(Ingrediente.id.ToString()); // lista degli elementi selezionati
+                bool isSelected = this.SelectedIngredients.Contains(Ingrediente.id.ToString()); // this.Pizza.Ingredients?.Any(i => i.Id == ingrendient.Id) == true;
 
 
                 this.Ingredients.Add(new SelectListItem() // lista degli elementi selezionabili
