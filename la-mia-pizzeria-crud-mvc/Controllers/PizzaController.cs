@@ -175,7 +175,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
 
             data.Pizza.Foto = "~/img/" + imgFileName;
 
-            // MODIFICA TRAMITE LAMBDA
+            // richiamo funzione di modifica
             bool result = PizzaManager.UpdatePizza(id, data.Pizza, data.SelectedIngredients);
 
             if (result == true)
