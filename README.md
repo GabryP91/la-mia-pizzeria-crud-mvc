@@ -39,3 +39,11 @@ Una pizza può avere più ingredienti, e un ingrediente può essere presente in 
 Creiamo quindi il Model necessario e la migration.
 Aggiungiamo poi il codice al controller (e alle view) per la gestione degli ingredienti quando creiamo, modifichiamo o visualizziamo una pizza.
 
+# PARTE5
+
+Proteggiamo le nostre pagine di gestione delle pizze!
+Aggiungiamo tutto il necessario per la login e la registrazione.
+Ricordiamoci poi di bloccare l’accesso al nostro controller delle Pizze con [Authorize] e creiamo una HomePage dove verrà rimandato l’utente dopo il logout.
+Facciamo in modo che gli utenti con role USER possano accedere solo alla pagina con l’elenco delle pizze e ai dettagli della singola pizza.
+Mentre gli utenti con role ADMIN devono poter creare, modificare e cancellare le pizze.
+
